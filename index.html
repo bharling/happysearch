@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>New Web Project</title>
+        <link rel="stylesheet" href="happysearch.css">
+    </head>
+    <body>
+        <div id="main_box">
+        	<div id="eyes">
+        		<div class="eye" id="left_eye"><div class="pupil"></div></div>
+        		<div class="eye" id="right_eye"><div class="pupil"></div></div>
+        	</div>
+        	
+        	<div class="clear"></div>
+        	
+        	<div id="input_container">
+        		<input type="text" placeholder="Search.." name="search" id="search" />
+        	</div>
+        	
+        </div>
+        
+        <div id="debug">
+        	<span></span>
+        	<span></span>
+        </div>
+        
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script type="text/javascript">
+        	function dotProduct ( ax, ay, bx, by )
+        	{
+        		return (ax*bx + ay*by);
+        	}
+        
+        	function vectorLength ( ax, ay, bx, by )
+        	{
+        		
+        	}
+        	
+        	function normalize( ax, ay, bx, by ) 
+        	{
+        		
+        	}
+        	
+        	function anglebetweenvectors ( v1x, v1y, v2x, v2y ) {
+        		
+        	}
+        
+        	$(document).ready(function(){
+        		
+        		var lpupil = $('#lefteye .pupil'),
+        			rpupil = $('#righteye .pupil');
+        			eyesize = 29 / 2.0;
+        		
+        		$(document).mousemove(function(e){
+				      var pageCoords = "( " + e.pageX + ", " + e.pageY + " )";
+				      var clientCoords = "( " + e.clientX + ", " + e.clientY + " )";
+				      
+				      var eyeleft_pos = $('#lefteye').offset();
+				      var eyeright_pos = $('#righteye').offset();
+				      
+				      
+				      
+				      
+				});
+        	});
+        </script>
+        
+    </body>
+</html>

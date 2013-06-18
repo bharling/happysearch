@@ -1,0 +1,68 @@
+#main_box
+{
+	width:50%;
+	margin:0 auto;
+	min-width:300px;
+	height:200px;
+	margin-top:140px;
+	max-width: 500px;
+}
+
+#eyes
+{
+	
+}
+
+#left_eye
+{
+	float:left;
+}
+
+#right_eye
+{
+	float:right;
+}
+
+.clear
+{
+	clear:both;
+}
+
+#input_container
+{
+	margin-top:100px;
+	width:100%;
+	border:1px solid #000;
+	padding:4px;
+	border-radius:0px 0px 6px 6px;
+}
+
+#input_container input
+{
+	width:100%;
+	border:none;
+}
+
+.eye {
+	background: url('./sprite.png') no-repeat -1px -1px;
+	width: 29px;
+	height: 29px;
+	position:relative;
+}
+
+.eye.blink
+{
+	background: url('./sprite.png') no-repeat -54px -18px;
+	width: 30px;
+	height: 4px;
+}
+
+.pupil
+{
+	background: url('./sprite.png') no-repeat -39px -4px;
+	width: 7px;
+	height: 8px;
+	position:absolute;
+	top:15px;
+	left:15px;
+}
