@@ -16,7 +16,7 @@
         	<div class="clear"></div>
         	
         	<div id="input_container">
-        		<input type="text" placeholder="Search.." name="search" id="search" />
+        		<input type="text" placeholder="Please enter the passphrase..." name="password" id="password" />
         	</div>
         	
         </div>
@@ -29,33 +29,45 @@
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
         <script type="text/javascript">
-        	var nextActionTimeout, followMouse=false;
-        
-        
-        	function dotProduct ( ax, ay, bx, by )
-        	{
-        		return (ax*bx + ay*by);
-        	}
-        
-        	function vectorLength ( ax, ay, bx, by )
-        	{
-        		
-        	}
+        	(function($) {
+			    $.fn.getCursorPosition = function() {
+			        var input = this.get(0);
+			        if (!input) return; // No (input) element found
+			        if ('selectionStart' in input) {
+			            // Standard-compliant browsers
+			            return input.selectionStart;
+			        } else if (document.selection) {
+			            // IE
+			            input.focus();
+			            var sel = document.selection.createRange();
+			            var selLen = document.selection.createRange().text.length;
+			            sel.moveStart('character', -input.value.length);
+			            return sel.text.length - selLen;
+			        }
+			    }
+			})(jQuery);
         	
-        	function normalize( ax, ay, bx, by ) 
-        	{
+        
+        
+        	var nextActionTimeout, l_eye_to_mouse, r_eye_to_mouse, followMouse=false;
+        
+        	function angleOfLine (Y2, Y1, X2, X1) {
+        		var angle = Math.atan2(Y2 - Y1, X2 - X1);
         		
-        	}
-        	
-        	function anglebetweenvectors ( v1x, v1y, v2x, v2y ) {
-        		
+        		return angle;
         	}
         	
         	function chooseEyeBehaviour()
         	{
-        		lookAtUser();
+        		followMouse = false;
+        		return Math.random() > 0.5 ? lookAtUser() : lookAtMouse();
         	}
         	
+        	
+        	function lookAtMouse() {
+        		followMouse = true
+        		setNextAction()
+        	}
         	
         	function lookAtUser() {
         		$('.pupil').css({
@@ -68,10 +80,11 @@
         	}
         	
         	function setNextAction () {
-        		nextActionTimeout = setTimeout(function(){blink()}, 1000 + (Math.random() * 2000));
+        		nextActionTimeout = setTimeout(function(){blink()}, 2500 + (Math.random() * 2000));
         	}
         	
         	function cancelNextAction () {
+        		followMouse = false;
         		window.clearTimeout(nextActionTimeout);
         	}
         	
@@ -102,21 +115,37 @@
         
         	$(document).ready(function(){
         		
-        		var lpupil = $('#lefteye .pupil'),
-        			rpupil = $('#righteye .pupil');
+        		var lpupil = $('#left_eye .pupil'),
+        			rpupil = $('#right_eye .pupil');
         			eyesize = 29 / 2.0;
         		
         		$(document).mousemove(function(e){
-				      var pageCoords = "( " + e.pageX + ", " + e.pageY + " )";
-				      var clientCoords = "( " + e.clientX + ", " + e.clientY + " )";
+        			  
+        			if ( followMouse ) {
+											      
+					      var eyeleft_pos = $('#left_eye').offset();
+					      var eyeright_pos = $('#right_eye').offset();
+					      l_eye_to_mouse = angleOfLine(e.clientY, eyeleft_pos.top + 11, e.clientX, eyeleft_pos.left + 11);
+					      r_eye_to_mouse = angleOfLine(e.clientY, eyeright_pos.top + 11, e.clientX, eyeright_pos.left + 11);
+					      
+					      lpupil.css({
+					      	left:11 + (9.0 * Math.cos(l_eye_to_mouse)),
+					      	top: 11 + (9.0 * Math.sin(l_eye_to_mouse))
+					      });
+					      
+					      rpupil.css({
+					      	left:11 + (9.0 * Math.cos(r_eye_to_mouse)),
+					      	top: 11 + (9.0 * Math.sin(r_eye_to_mouse))
+					      });
 				      
-				      var eyeleft_pos = $('#lefteye').offset();
-				      var eyeright_pos = $('#righteye').offset();
+				      }
 				});
 				
 				$('input').click(function(){
 					lookAtInput();
 				})
+				
+				$('#main_box').animate({marginTop:'140px', opacity:1.0}, 1200);
 				
 				blink();
         	});
