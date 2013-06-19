@@ -53,8 +53,9 @@
 .eye.blink
 {
 	background: url('./sprite.png') no-repeat -54px -18px;
-	width: 30px;
-	height: 4px;
+	width: 29px;
+	height: 29px;
+	background-position-y: 50%;
 }
 
 .pupil
@@ -65,4 +66,9 @@
 	position:absolute;
 	top:15px;
 	left:15px;
+}
+
+.eye.blink .pupil
+{
+	display:none;
 }

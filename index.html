@@ -29,6 +29,9 @@
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
         <script type="text/javascript">
+        	var nextActionTimeout, followMouse=false;
+        
+        
         	function dotProduct ( ax, ay, bx, by )
         	{
         		return (ax*bx + ay*by);
@@ -47,6 +50,55 @@
         	function anglebetweenvectors ( v1x, v1y, v2x, v2y ) {
         		
         	}
+        	
+        	function chooseEyeBehaviour()
+        	{
+        		lookAtUser();
+        	}
+        	
+        	
+        	function lookAtUser() {
+        		$('.pupil').css({
+        			left:'11px',
+        			top:'11px'
+        		});
+        		
+        		setNextAction()
+        		
+        	}
+        	
+        	function setNextAction () {
+        		nextActionTimeout = setTimeout(function(){blink()}, 1000 + (Math.random() * 2000));
+        	}
+        	
+        	function cancelNextAction () {
+        		window.clearTimeout(nextActionTimeout);
+        	}
+        	
+        	function lookAtInput()
+        	{
+        		cancelNextAction();
+        		$('#left_eye .pupil').css({
+        			left:'13px',
+        			top:'17px'
+        		});
+        		
+        		$('#right_eye .pupil').css({
+        			left:'9px',
+        			top:'17px'
+        		});
+        		
+        		setNextAction();
+        	}
+        	
+        	function blink() {
+        		$('.eye').addClass('blink');
+        		setTimeout(function(){unblink()}, 200);
+        	}
+        	function unblink() {
+        		$('.eye').removeClass('blink');
+        		chooseEyeBehaviour();
+        	}
         
         	$(document).ready(function(){
         		
@@ -60,11 +112,13 @@
 				      
 				      var eyeleft_pos = $('#lefteye').offset();
 				      var eyeright_pos = $('#righteye').offset();
-				      
-				      
-				      
-				      
 				});
+				
+				$('input').click(function(){
+					lookAtInput();
+				})
+				
+				blink();
         	});
         </script>
         
