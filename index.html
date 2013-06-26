@@ -60,9 +60,22 @@
         	function chooseEyeBehaviour()
         	{
         		followMouse = false;
-        		return Math.random() > 0.5 ? lookAtUser() : lookAtMouse();
+        		
+        		var actionChoices = [lookAtUser, randomGlance, lookAtMouse];
+        		
+        		var choice = actionChoices[ Math.floor( Math.random() * actionChoices.length )]
+        		
+        		return choice();
         	}
         	
+        	function randomGlance() {
+        		var xchoice = Math.floor(Math.random() * 3)
+        		var ychoice = Math.floor(Math.random() * 3)
+        		var positions = [3, 10, 18];
+        		var x = positions[xchoice];
+        		var y = positions[ychoice];
+        		glance(x, y);
+        	}
         	
         	function lookAtMouse() {
         		followMouse = true
@@ -76,10 +89,22 @@
         		});
         		
         		setNextAction()
-        		
+        	}
+        	
+        	function oooh() {
+        		$('#input_container').animate(
+        			{width:'45px',
+        			height:'45px',
+        			'border-radius':'50%'}
+        		).delay(500).animate({
+        			width:'90%',
+        			height:'auto',
+        			'border-radius':'0px 0px 16px 16px'
+        		});
         	}
         	
         	function setNextAction () {
+        		window.clearTimeout(nextActionTimeout);
         		nextActionTimeout = setTimeout(function(){blink()}, 2500 + (Math.random() * 2000));
         	}
         	
@@ -88,18 +113,112 @@
         		window.clearTimeout(nextActionTimeout);
         	}
         	
+        	
+        	function shakeHead(element, times, distance, speed) {
+        		for(i = 0; i < times; i++) {
+			        element.animate({marginLeft: '-='+distance},speed)
+			            .animate({marginLeft: '+='+distance},speed);
+			    }
+			    
+			    resetMouth();
+			    lookAtUser();
+			    resetMargins();  
+        	}
+        	
+        	function nodHead(element, times, distance, speed) {
+			    for(i = 0; i < times; i++) {
+			        element.animate({marginTop: '-='+distance},speed)
+			            .animate({marginTop: '+='+distance},speed);
+			    }
+			    resetMouth();
+			    lookAtUser();
+			    resetMargins();     
+			}
+			
+			function resetMargins() {
+				$('#main_box').css('margin', '0 auto');
+			}
+        	
+        	function thinking() {
+        		cancelNextAction();
+        		$('#left_eye .pupil').animate({
+        			left:'18px',
+        			top:'4px'
+        		}, 'fast');
+        		
+        		$('#right_eye .pupil').animate({
+        			left:'18px',
+        			top:'4px'
+        		}, 'fast');
+        		
+        		$('#input_container').animate({
+        			height:'1px',
+        			padding:'0px',
+        			width:'15%'
+        		}, 'fast');
+        		
+        		correctLogin();
+        	}
+        	
+        	
+        	function glance(x, y) {
+        		
+        		cancelNextAction();
+        		
+        		$('.eye').addClass('blink');
+    			$('#left_eye .pupil').css({
+        			left: x +'px',
+        			top: y +'px'
+    			});
+    		
+    			$('#right_eye .pupil').css({
+        			left: x +'px',
+        			top: y +'px'
+    			});
+
+        		setTimeout(function() {
+        			$('.eye').removeClass('blink');
+        			setNextAction();
+        		},80);
+
+        	}
+        	
+        	function correctLogin () {
+        		setTimeout( function () {
+        			lookAtUser();
+        			cancelNextAction();
+        			resetMouth();
+        			nodHead( $('#main_box'), 4, '20px', 200 ) ;
+        		}, 1000 )
+        	}
+        	
+        	function failedLogin () {
+        		setTimeout( function () {
+        			$('.eye').addClass('blink');
+        			shakeHead($('#main_box'), 4, '30px', 200 );
+        		}, 1000);
+        	}
+        	
+        	function resetMouth() {
+        		$('#input_container').animate({
+        			padding:'4px',
+        			width:'90%',
+        			height:'auto'
+        		}, 'fast')
+        	}
+        	
         	function lookAtInput()
         	{
         		cancelNextAction();
-        		$('#left_eye .pupil').css({
+        		$('#left_eye .pupil').animate({
         			left:'13px',
         			top:'17px'
-        		});
+        		}, 'fast');
         		
-        		$('#right_eye .pupil').css({
+        		$('#right_eye .pupil').animate({
         			left:'9px',
         			top:'17px'
-        		});
+        		}, 'fast');
         		
         		setNextAction();
         	}
@@ -143,7 +262,11 @@
 				
 				$('input').click(function(){
 					lookAtInput();
-				})
+				});
+				
+				$('body').click(function() {
+					lookAtMouse();
+				});
 				
 				$('#main_box').animate({marginTop:'140px', opacity:1.0}, 1200);
 				
