@@ -19,6 +19,12 @@
 		  animation-duration: 10s;
 		  animation-name: blink;
 		  animation-delay: 0s;
+		  
+		  -webkit-animation-iteration-count: infinite;
+		  -webkit-animation-duration: 10s;
+		  -webkit-animation-name: blink;
+		  -webkit-animation-delay: 0s;
+		  
 		
 	}
 	/* gotta declare the animation twice to get it to work in ff and webkit */
@@ -34,6 +40,22 @@
 		  100% {
 		  }
 		}
+		
+		
+	@-webkit-keyframes blink {
+		  0%, 4% {
+			height: 40px;
+			margin-top: 0px;
+		  }
+		  2% {
+			height: 0px;
+			margin-top: 20px;
+		  }
+		  100% {
+		  }
+		}
+		
+		
 	.pupil{
 		border: 5px solid black;
 		border-radius: 5px;
@@ -106,9 +128,9 @@ $("#myTextInput").bind("keydown keypress mousemove", function() {
 });
 <span class="eye" style="left: 30%;"><span class="pupil"></span></span>
 <span class="eye" style="right: 30%;"><span class="pupil"></span></span>
-<span class="whiskers" style="left: 25%"><span class="whisker" style="transform: rotate(30deg);"></span><span class="whisker" style="margin-left: -5px;"></span><span class="whisker" style="transform: rotate(-30deg);"></span></span>
+<span class="whiskers" style="left: 25%"><span class="whisker" style="transform: rotate(30deg);-webkit-transform: rotate(30deg);"></span><span class="whisker" style="margin-left: -5px;"></span><span class="whisker" style="transform: rotate(-30deg);-webkit-transform: rotate(-30deg);"></span></span>
 <span class="nose"></span>
-<span class="whiskers" style="right: 25%"><span class="whisker" style="transform: rotate(-30deg);"></span><span class="whisker" style="margin-left: 5px;"></span><span class="whisker" style="transform: rotate(30deg);"></span></span>
+<span class="whiskers" style="right: 25%"><span class="whisker" style="transform: rotate(-30deg);-webkit-transform: rotate(-30deg);"></span><span class="whisker" style="margin-left: 5px;"></span><span class="whisker" style="transform: rotate(30deg);-webkit-transform: rotate(30deg);"></span></span>
 <span class="mouth"><span class="teeth"></span><span class="teeth"></span><span class="teeth"></span></span>
 </body>
 </html>
